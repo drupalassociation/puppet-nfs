@@ -152,6 +152,7 @@ class nfs(
   $defaults_file                = $::nfs::params::defaults_file,
   $server_packages              = $::nfs::params::server_packages,
   $client_packages              = $::nfs::params::client_packages,
+  $server_service_manage        = $::nfs::params::server_service_manage,
   $server_service_name          = $::nfs::params::server_service_name,
   $server_service_ensure        = running,
   $server_service_enable        = true,
