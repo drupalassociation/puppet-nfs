@@ -95,6 +95,7 @@ class nfs::params {
 
   # service parameters
   # params that are the same on all (known) OSes.
+  $server_service_manage      = true
   $client_nfs_fstype          = 'nfs'
   $client_services_hasrestart = true
   $client_services_hasstatus  = true
