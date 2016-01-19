@@ -17,30 +17,32 @@
 class nfs::server::service {
 
   # services
-  if $::nfs::nfs_v4 == true {
-    service { $::nfs::server_service_name:
-      ensure     => $::nfs::server_service_ensure,
-      enable     => $::nfs::server_service_enable,
-      hasrestart => $::nfs::server_service_hasrestart,
-      hasstatus  => $::nfs::server_service_hasstatus,
-      subscribe  => [ Concat[$::nfs::exports_file], Augeas[$::nfs::idmapd_file] ]
-    }
-    if $::nfs::server_nfsv4_servicehelper {
-      service { $::nfs::server_nfsv4_servicehelper:
+  if $::nfs::server_service_manage {
+    if $::nfs::nfs_v4 == true {
+      service { $::nfs::server_service_name:
         ensure     => $::nfs::server_service_ensure,
         enable     => $::nfs::server_service_enable,
         hasrestart => $::nfs::server_service_hasrestart,
         hasstatus  => $::nfs::server_service_hasstatus,
-        subscribe  => [ Concat[$::nfs::exports_file], Augeas[$::nfs::idmapd_file] ],
+        subscribe  => [ Concat[$::nfs::exports_file], Augeas[$::nfs::idmapd_file] ]
       }
-    }
-  } else {
-  service { $::nfs::server_service_name:
-    ensure     => $::nfs::server_service_ensure,
-    enable     => $::nfs::server_service_enable,
-    hasrestart => $::nfs::server_service_hasrestart,
-    hasstatus  => $::nfs::server_service_hasstatus,
-    subscribe  => Concat[$::nfs::exports_file]
+      if $::nfs::server_nfsv4_servicehelper {
+        service { $::nfs::server_nfsv4_servicehelper:
+          ensure     => $::nfs::server_service_ensure,
+          enable     => $::nfs::server_service_enable,
+          hasrestart => $::nfs::server_service_hasrestart,
+          hasstatus  => $::nfs::server_service_hasstatus,
+          subscribe  => [ Concat[$::nfs::exports_file], Augeas[$::nfs::idmapd_file] ],
+        }
+      }
+    } else {
+      service { $::nfs::server_service_name:
+        ensure     => $::nfs::server_service_ensure,
+        enable     => $::nfs::server_service_enable,
+        hasrestart => $::nfs::server_service_hasrestart,
+        hasstatus  => $::nfs::server_service_hasstatus,
+        subscribe  => Concat[$::nfs::exports_file]
+      }
     }
   }
 }
